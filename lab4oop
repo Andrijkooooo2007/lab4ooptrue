@@ -1,0 +1,86 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Computer {
+protected:
+    string brand;
+
+public:
+    Computer() : brand("Unknown") {}
+    Computer(const string& b) : brand(b) {}
+    Computer(const Computer& other) : brand(other.brand) {}
+    virtual ~Computer() {}
+
+    void setBrand(const string& b) { brand = b; }
+    string getBrand() const { return brand; }
+};
+
+class Server : public Computer {
+private:
+    int numCores;
+    int ramSize;
+public:
+    Server() : numCores(0), ramSize(0) {}
+    Server(const string& b, int cores, int ram) : Computer(b), numCores(cores), ramSize(ram) {}
+    Server(const Server& other) : Computer(other), numCores(other.numCores), ramSize(other.ramSize) {}
+    ~Server() {}
+
+    void inputData() {
+        cout << "Введіть бренд сервера: ";
+        getline(cin, brand);
+        cout << "Введіть кількість ядер: ";
+        cin >> numCores;
+        cout << "Введіть об'єм оперативної пам'яті (ГБ): ";
+        cin >> ramSize;
+        cin.ignore();
+    }
+
+    void print() const {
+        cout << "Бренд: " << brand << ", Кількість ядер: " << numCores << ", ОП: " << ramSize << " ГБ" << endl;
+    }
+};
+
+class Laptop : public Computer {
+private:
+    float screenSize;
+    int batteryLife;
+
+public:
+    Laptop() : screenSize(0.0), batteryLife(0) {}
+    Laptop(const string& b, float size, int life) : Computer(b), screenSize(size), batteryLife(life) {}
+    Laptop(const Laptop& other) : Computer(other), screenSize(other.screenSize), batteryLife(other.batteryLife) {}
+    ~Laptop() {}
+
+    void inputData() {
+        cout << "Введіть бренд ноутбука: ";
+        getline(cin, brand);
+        cout << "Введіть розмір екрану (дюйми): ";
+        cin >> screenSize;
+        cout << "Введіть час роботи від акумулятора (години): ";
+        cin >> batteryLife;
+        cin.ignore();
+    }
+
+    void print() const {
+        cout << "Бренд: " << brand << ", Розмір екрану: " << screenSize << " дюймів, Час роботи: " << batteryLife << " годин" << endl;
+    }
+};
+
+int main() {
+    Server server;
+    Laptop laptop;
+
+    cout << "Введіть дані для сервера:" << endl;
+    server.inputData();
+    cout << "Введіть дані для ноутбука:" << endl;
+    laptop.inputData();
+
+    cout << "\nДані про сервер:" << endl;
+    server.print();
+    cout << "Дані про ноутбук:" << endl;
+    laptop.print();
+
+    return 0;
+}
